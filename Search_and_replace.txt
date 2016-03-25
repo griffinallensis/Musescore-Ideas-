@@ -58,6 +58,6 @@ int main()
     std::string case_match;
     getline (std::cin, case_match);
     bool c_sense = true;
-    if ((case_match == "N") or (case_match == "n")) { c_sense = false; }
+    if ((case_match == "N") or (case_match == "n")) { c_sense = false; } //By default, the search is not case sensitive
     std::cout << replace(smaller, larger, replacement, c_sense);    
 }
