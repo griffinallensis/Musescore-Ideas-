@@ -1,0 +1,63 @@
+//Search and Replace. By Griffin Allensis. Started February 15, 2016. Revised March 23, 2016.
+
+#include <iostream>
+#include <string>
+
+std::string replace(std::string smaller, std::string larger, std::string replacement, bool c_sense)
+    {
+        std::string caps =   "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        std::string lowers = "abcdefghijklmnopqrstuvwxyz";
+        uint wins = 0; //successful character matches
+        std::string new_string;
+        for (uint index = 0; index < larger.length(); index++)
+        {
+            bool match = false;
+            char first = larger.at(index);
+            char second = smaller.at(wins);
+            if (first == second) { match = true; } //if characters are the same and the same case
+            if (c_sense == false)
+            {
+		// -1 is the value returned by find() if the character is not in the string
+                if ( (caps.find(first) == lowers.find(second)) and not (caps.find(first) == -1)   ) { match = true; }
+                if ( (lowers.find(first) == caps.find(second)) and not (lowers.find(first) == -1) ) { match = true; }
+            }
+            if (match == true)
+            {
+                wins++;
+                new_string += larger.at(index);
+		//One more character has been matched. Still add it to new_string in case it isn't a complete match
+            }
+            else
+            {
+                wins = 0;
+                new_string += larger.at(index);
+		//Reset the count of characters matched. We have to start at the beginning of smaller now.
+            }
+            if (wins == smaller.length())
+            {
+                wins = 0;
+                new_string = new_string.substr (0, new_string.length() - smaller.length() ) + replacement;
+		//The entire string smaller has been found within larger. Add all of new_string up until the beginning of smaller, and then add replacement
+            }   
+        }
+        return new_string;
+    }
+
+int main()
+{
+    std::cout << "Enter a long string to search. ";
+    std::string larger;
+    getline (std::cin, larger);
+    std::cout << "Enter a shorter string to search for. ";
+    std::string smaller;
+    getline (std::cin, smaller);
+    std::cout << "Enter a third string to replace with. ";
+    std::string replacement;
+    getline (std::cin, replacement);
+    std::cout << "Case sensitive? Y/N ";
+    std::string case_match;
+    getline (std::cin, case_match);
+    bool c_sense = true;
+    if ((case_match == "N") or (case_match == "n")) { c_sense = false; }
+    std::cout << replace(smaller, larger, replacement, c_sense);    
+}
