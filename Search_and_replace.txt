@@ -7,13 +7,13 @@ std::string replace(std::string smaller, std::string larger, std::string replace
     {
         std::string caps =   "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         std::string lowers = "abcdefghijklmnopqrstuvwxyz";
-        uint wins = 0; //successful character matches
+        uint successes = 0; //successful character matches
         std::string new_string;
         for (uint index = 0; index < larger.length(); index++)
         {
             bool match = false;
             char first = larger.at(index);
-            char second = smaller.at(wins);
+            char second = smaller.at(successes);
             if (first == second) { match = true; } //if characters are the same and the same case
             if (c_sense == false)
             {
@@ -23,19 +23,19 @@ std::string replace(std::string smaller, std::string larger, std::string replace
             }
             if (match == true)
             {
-                wins++;
+                successes++;
                 new_string += larger.at(index);
 		//One more character has been matched. Still add it to new_string in case it isn't a complete match
             }
             else
             {
-                wins = 0;
+                successes = 0;
                 new_string += larger.at(index);
 		//Reset the count of characters matched. We have to start at the beginning of smaller now.
             }
-            if (wins == smaller.length())
+            if (successes == smaller.length())
             {
-                wins = 0;
+                successes = 0;
                 new_string = new_string.substr (0, new_string.length() - smaller.length() ) + replacement;
 		//The entire string smaller has been found within larger. Add all of new_string up until the beginning of smaller, and then add replacement
             }   
